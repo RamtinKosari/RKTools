@@ -14,7 +14,9 @@
      */
     # define __RKLTOOLS_IMAGE_TO_ASCII
     //-- Include Needed Libraries
+    # include <sys/ioctl.h>
     # include <iostream>
+    # include <unistd.h>
     # include <string>
     /**
      * @brief Unix Based Settings
@@ -60,23 +62,21 @@
              */
             Character aic;
             /**
-             * @brief Structure to Store Terminal's Size
+             * @brief Rows of Terminal
              */
-            struct Terminal {
-                /**
-                 * @brief Rows of Terminal
-                 */
-                int rows;
-                /**
-                 * @brief Columns of Terminal
-                 */
-                int cols;
-            };
+            int rows;
+            /**
+             * @brief Columns of Terminal
+             */
+            int cols;
         public:
             /**
              * @brief AsciiImage Constructor
              */
             AsciiImage() noexcept;
-            Terminal getSize();
+            /**
+             * @brief Method to Get Size of Terminal
+             */
+            void getTermianlSize() noexcept;
     };
 # endif // __RKLTOOLS_IMAGE_TO_ASCII
