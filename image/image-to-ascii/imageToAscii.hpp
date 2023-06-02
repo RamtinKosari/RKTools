@@ -1,10 +1,4 @@
 # ifndef __RKLTOOLS_IMAGE_TO_ASCII
-    //-- Check Operating System for Console Escape Character
-    # if defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__) || defined(__MACH__) || defined(macintosh) || defined(Macintosh)
-        # define IS_UNIX true
-    # else
-        # define IS_UNIX false
-    # endif // Check Operating System for Console Escape Character
     /**
      * @file imageToAscii.hpp
      * @author Ramtin Kosari (ramtinkosari@gmail.com)
@@ -14,35 +8,74 @@
      */
     # define __RKLTOOLS_IMAGE_TO_ASCII
     //-- Include Needed Libraries
-    # include <sys/ioctl.h>
-    # include <iostream>
-    # include <unistd.h>
+    # include <chrono>
     # include <string>
-    /**
-     * @brief Unix Based Settings
-     */
-    namespace UNIX_BASED {
+    # include <thread>
+    # include <vector>
+    # include <unistd.h>
+    # include <iostream>
+    # include <sys/ioctl.h>
+    # include <opencv4/opencv2/highgui.hpp>
+    # include <opencv4/opencv2/imgproc.hpp>
+    //-- Check Operating System for Console Escape Character
+    # if defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__) || defined(__MACH__) || defined(macintosh) || defined(Macintosh)
+        # define IS_UNIX true
         std::string escChar = "\033[";
-    }
-    /**
-     * @brief Windows Based Settings
-     */
-    namespace DOS_BASED {
+    # else
+        # define IS_UNIX false
         std::string escChar = "\1xb[";
-    }
+    # endif // Check Operating System for Console Escape Character
+    /**
+     * @brief Image Valid Color Channels
+     */
+    enum ValidChannels {
+        /**
+         * @brief RGB Channel
+         * @note - About 3 Times Slower than Grayscale
+         * @note - More RAM Usage
+         */
+        RGB,
+        /**
+         * @brief Grayscale Channel
+         * @note - About 3 Times Faster than RGB
+         * @note - Less RAM Usage
+         */
+        GRAYSCALE
+    };
     /**
      * @brief Class Definition of Colorful Character
      */
     class Character {
         protected :
             /**
-             * @brief Pixel Character's Color
-             */
-            std::string color;
-            /**
              * @brief Pixel Character
              */
             std::string pixel;
+            /**
+             * @brief Structure to Store RGB's Values
+             */
+            struct Color {
+                /**
+                 * @brief RGB's Red Value
+                 */
+                int red;
+                /**
+                 * @brief RGB's Green Value
+                 */
+                int green;
+                /**
+                 * @brief RGB's Blue Value
+                 */
+                int blue;
+                /**
+                 * @brief Grayscale Value
+                 */
+                int grayscale;
+            };
+            /**
+             * @brief Structure to Access RGB's Values
+             */
+            Color color;
         public:
             /**
              * @brief Character Constructor
@@ -50,7 +83,11 @@
             Character() noexcept;
             /**
              * @brief Method to Change Color of Character
+             * @param Red RGB's Red Value
+             * @param Green RGB's Green Value
+             * @param Blue RGB's Blue Value
              */
+            void setRGBColor(int &Red, int &Green, int &Blue) noexcept;
     };
     /**
      * @brief Class Definitions of Image to Ascii Methodes
@@ -69,6 +106,10 @@
              * @brief Columns of Terminal
              */
             int cols;
+            /**
+             * @brief Object to Access Termina;'s Size
+             */
+            struct winsize terminalWindow;
         public:
             /**
              * @brief AsciiImage Constructor
@@ -78,5 +119,15 @@
              * @brief Method to Get Size of Terminal
              */
             void getTermianlSize() noexcept;
+            /**
+             * @brief Method to Convert OpenCV's Matrix to Colorful Background Character
+             * @param input Input OpenCV's Matrix
+             * @param mode RGB or Grayscale Mode
+             * @note Default Mode is Set to RGB, If You Want Faster Experiencing, Pass
+             * 'GRAYSCALE' as Mode to The Method and for That, You Must Pass Grayscale
+             * Matrix not RGB, Otherwise Output Display is 3 Times Bigger
+             */
+            void convert(cv::Mat &input, const int &mode);
+            // to Do : Add Method to Use Vectors for Not Using OpenCV
     };
 # endif // __RKLTOOLS_IMAGE_TO_ASCII
