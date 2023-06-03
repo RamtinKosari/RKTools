@@ -110,6 +110,10 @@
              * @brief Object to Access Termina;'s Size
              */
             struct winsize terminalWindow;
+            /**
+             * @brief Cursor Blinking State
+             */
+            bool blinkingState;
         public:
             /**
              * @brief AsciiImage Constructor
@@ -128,6 +132,10 @@
              * Matrix not RGB, Otherwise Output Display is 3 Times Bigger
              */
             void convert(cv::Mat &input, const int &mode);
+            /**
+             * @brief Method to Change Cursor Blinking State on Terminal Window
+             */
+            void changeBlinkingState();
             // to Do : Add Method to Use Vectors for Not Using OpenCV
     };
 # endif // __RKLTOOLS_IMAGE_TO_ASCII

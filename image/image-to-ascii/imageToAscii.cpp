@@ -33,7 +33,21 @@
      * @brief AsciiImage Constructor
      */
     AsciiImage::AsciiImage() noexcept(true) {
+        blinkingState = false;
+        changeBlinkingState();
         getTermianlSize();
+    }
+    /**
+     * @brief Method to Change Cursor Blinking State on Terminal Window
+     */
+    void AsciiImage::changeBlinkingState() {
+        if (blinkingState == true) {
+            blinkingState = false;
+            system("tput civis");
+        } else {
+            blinkingState = true;
+            system("tput cnorm");
+        }
     }
     /**
      * @brief Method to Convert OpenCV's Matrix to Colorful Background Character
@@ -76,10 +90,15 @@
         AsciiImage image;
         cv::VideoCapture capture(0);
         cv::Mat frame;
-        image.getTermianlSize();
+        sleep(2);
+        image.changeBlinkingState();
         while (true) {
             capture >> frame;
-            image.convert(frame);
+            image.convert(frame, RGB);
+            if (cv::waitKey(1) == int('q')) {
+                image.changeBlinkingState();
+                break;
+            }
         }
     }
 # endif // __RKLTOOLS_IMAGE_TO_ASCII
