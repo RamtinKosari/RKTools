@@ -2,6 +2,7 @@
     /**
      * @file Core.hpp
      * @brief Open Source Useful Tools
+     * @author ramtinkosari@gmail.com
      * @note Ramtin Kosari's Tools are Useful Tools in C++ Language
      * @version 1.1
      * @date 2023-06-06
@@ -73,8 +74,8 @@
             # error System Architecture is Not Compatible with QSSL
         # endif // Check Architecture
         //-- Include Needed Libraries
-        # include <opencv4/opencv2/highgui.hpp>
-        # include <opencv4/opencv2/imgproc.hpp>
+        // # include <opencv4/opencv2/highgui.hpp>
+        // # include <opencv4/opencv2/imgproc.hpp>
         # include <sys/ioctl.h>
         # include <iostream>
         # include <dirent.h>
