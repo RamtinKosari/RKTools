@@ -8,7 +8,7 @@ find_package(OpenCV REQUIRED)
 
 # Set Source Directories
 set(SOURCE_DIRS
-    #image/image-to-ascii
+    image/image-to-ascii
 )
 
 # Set Core Sources

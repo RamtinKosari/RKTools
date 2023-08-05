@@ -24,6 +24,18 @@ int main(int argc, char** argv) {
                 std::cout << SUCCESS << toolName << " Tool has been Selected" << std::endl;
                 switch (toolNumber) {
                     case IMAGE_TO_ASCII: {
+                        # ifndef __RKLTOOLS_IMAGE_TO_ASCII
+                            # include "image/image-to-ascii/imageToAscii.hpp"
+                        # endif // __RKLTOOLS_IMAGE_TO_ASCII
+                        AsciiImage image;
+                        cv::VideoCapture capture("rtsp://admin:123456@192.168.1.60");
+                        cv::Mat frame;
+                        sleep(2);
+                        image.changeBlinkingState();
+                        while (true) {
+                            capture >> frame;
+                            image.convert(frame, FAST);
+                        }
                         break;
                     };
                     case LOGGER: {

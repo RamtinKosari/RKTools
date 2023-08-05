@@ -34,13 +34,13 @@
          * @note - About 3 Times Slower than Grayscale
          * @note - More RAM Usage
          */
-        RGB,
+        NORMAL,
         /**
          * @brief Grayscale Channel
          * @note - About 3 Times Faster than RGB
          * @note - Less RAM Usage
          */
-        GRAYSCALE
+        FAST
     };
     /**
      * @brief Class Definition of Colorful Character
